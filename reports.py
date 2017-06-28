@@ -1,13 +1,3 @@
-def file_spliter_iterator(file_name, year=None, genre=None):
-    with open(file_name) as games_file:
-        data_str = games_file.readline()
-        while len(data_str) > 1:
-            data_list = data_str.split("\t")
-            data_list[4] = data_list[4].rstrip()
-            if year is not None:
-                if int(data_list[2]) == year:
-                    return True
-            data_str = games_file.readline()
 
 
 def count_games(file_name):
@@ -19,46 +9,53 @@ def count_games(file_name):
 
 
 def decide(file_name, year):
-    data_str = str("not empty")
-    data_list = list()
     with open(file_name) as games_file:
-        data_str = games_file.readline()
-        while len(data_str) > 1:
-            data_list = data_str.split("\t")
-            data_list[4] = data_list[4].rstrip()
-            if int(data_list[2]) == year:
+        for line in games_file.readlines():
+            year_in_line = int(line.split("\t")[2])
+            if len(line) > 1 and year == year_in_line:
                 return True
-            data_str = games_file.readline()
     return False
 
 
 def get_latest(file_name):
-    data_str = str("not empty")
-    data_list = list()
     cur_latest = 0
     latest_title = str()
     with open(file_name) as games_file:
-        data_str = games_file.readline()
-        while len(data_str) > 1:
-            data_list = data_str.split("\t")
-            data_list[4] = data_list[4].rstrip()
-            if int(data_list[2]) > cur_latest:
-                cur_latest = int(data_list[2])
-                latest_title = data_list[0]
-            data_str = games_file.readline()
+        for line in games_file.readlines():
+            cur_year = int(line.split("\t")[2])
+            cur_title = line.split("\t")[0]
+            if cur_latest < cur_year:
+                cur_latest = cur_year
+                latest_title = cur_title
     return latest_title
 
 
 def count_by_genre(file_name, genre):
-    data_str = str("not empty")
-    data_list = list()
     games_of_genre = 0
     with open(file_name) as games_file:
-        data_str = games_file.readline()
-        while len(data_str) > 1:
-            data_list = data_str.split("\t")
-            data_list[4] = data_list[4].rstrip()
-            if data_list[3] == genre:
+        for line in games_file.readlines():
+            if genre == line.split("\t")[3]:
                 games_of_genre += 1
+    return games_of_genre
+
+
+def get_line_number_by_title(file_name, title):
+    data_str = str("not empty")
+    data_list = list()
+    row_num = 0
+    with open(file_name) as games_file:
+        try:
             data_str = games_file.readline()
-        return games_of_genre
+            row_num += 1
+            while len(data_str) > 1:
+                data_list = data_str.split("\t")
+                data_list[4] = data_list[4].rstrip()
+                if title == data_list[0]:
+                    return row_num
+                data_str = games_file.readline()
+                row_num += 1
+            if row_num >= 0 or row_num > 24:
+                raise ValueError("There is no such title in the file as {}".format(title))
+        except ValueError as error:
+            print("Value Error: {}".format(error))
+        return None
