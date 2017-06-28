@@ -1,3 +1,13 @@
+def file_spliter_iterator(file_name, year=None, genre=None):
+    with open(file_name) as games_file:
+        data_str = games_file.readline()
+        while len(data_str) > 1:
+            data_list = data_str.split("\t")
+            data_list[4] = data_list[4].rstrip()
+            if year is not None:
+                if int(data_list[2]) == year:
+                    return True
+            data_str = games_file.readline()
 
 
 def count_games(file_name):
@@ -37,3 +47,18 @@ def get_latest(file_name):
                 latest_title = data_list[0]
             data_str = games_file.readline()
     return latest_title
+
+
+def count_by_genre(file_name, genre):
+    data_str = str("not empty")
+    data_list = list()
+    games_of_genre = 0
+    with open(file_name) as games_file:
+        data_str = games_file.readline()
+        while len(data_str) > 1:
+            data_list = data_str.split("\t")
+            data_list[4] = data_list[4].rstrip()
+            if data_list[3] == genre:
+                games_of_genre += 1
+            data_str = games_file.readline()
+        return games_of_genre
