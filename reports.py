@@ -40,23 +40,20 @@ def count_by_genre(file_name, genre):
 
 
 def get_line_number_by_title(file_name, title):
-    data_str = str("not empty")
-    data_list = list()
-    row_num = 0
+    answer = 0
     with open(file_name) as games_file:
         try:
-            data_str = games_file.readline()
-            row_num += 1
-            while len(data_str) > 1:
-                data_list = data_str.split("\t")
-                data_list[4] = data_list[4].rstrip()
-                if title == data_list[0]:
-                    return row_num
-                data_str = games_file.readline()
-                row_num += 1
-            if row_num >= 0 or row_num > 24:
-                raise ValueError("There is no such title in the file as {}".format(title))
+            number = 0
+            for line in games_file.readlines():
+                number += 1
+                if title == line.split("\t")[0]:
+                    answer = number
+                    return answer
+            if answer == 0:
+                raise ValueError("Title either wasn't found in the given list or there was a processing problem")
         except ValueError as error:
-            print("Value Error: {}".format(error))
-        return None
-# comment
+            return error
+# Idea: what if I only ready the file once and I build a 2 dimensional list out of it and only search in that list
+# instead of reading through the file over and over again? the file reading repeating part would be replaced by
+# for cicles that go through the list looking for answers. The code would be a litle bit more dry.
+# Like 1 less line every function.
