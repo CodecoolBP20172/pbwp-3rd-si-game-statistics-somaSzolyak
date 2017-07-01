@@ -42,7 +42,6 @@ def count_longest_title(file_name):
     with open(file_name) as games_file:
         try:
             for line in games_file.readlines():
-                # longest_title_length = (len(line.split("\t")[0]) if longest_title_length < len(line.split("\t")[0]))
                 if longest_title_length < len(line.split("\t")[0]):
                     longest_title_length = len(line.split("\t")[0])
             if longest_title_length == 0:
@@ -91,3 +90,50 @@ def get_game(file_name, title):
             print(error)
         else:
             return game_list
+
+
+def count_grouped_by_genre(file_name):
+    ganre_counder_dict = dict()
+    with open(file_name) as games_file:
+        for line in games_file.readlines():
+            if line.split("\t")[3] not in ganre_counder_dict.keys():
+                ganre_counder_dict.update({line.split("\t")[3]: 1})
+            else:
+                ganre_counder_dict[line.split("\t")[3]] += 1
+    return ganre_counder_dict
+
+
+def date_ordering(date, date_list):
+    if date not in date_list:
+        date_list.append(date)
+    date_list.sort(reverse=True)
+
+
+def title_listing(title, date, date_dict):
+    if date not in date_dict.keys():
+        date_dict.update({date: [title]})
+    else:
+        date_dict[date].append(title)
+        date_dict[date].sort()
+
+
+def title_ordering(date_list, date_dict, title_list):
+    for date in date_list:
+        for iterator in range(len(date_dict[date])):
+            title_list.append(date_dict[date][iterator])
+
+
+def date_and_title_ordering(title, date, title_list, date_list, date_dict):
+    date_ordering(date, date_list)
+    title_listing(title, date, date_dict)
+
+
+def get_date_ordered(file_name):
+    titles = list()
+    date_dict = dict()
+    date_list = list()
+    with open(file_name) as games_file:
+        for line in games_file.readlines():
+            date_and_title_ordering(line.split("\t")[0], line.split("\t")[2], titles, date_list, date_dict)
+    title_ordering(date_list, date_dict, titles)
+    return titles
