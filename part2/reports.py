@@ -10,19 +10,27 @@ def get_most_played(file_name):
     copyes_sold = 0
     most_played_title = str()
     with open(file_name) as games_file:
-        for line in games_file.readlines():
-            if copyes_sold < float(line.split("\t")[1]):
-                copyes_sold = float(line.split("\t")[1])
-                most_played_title = line.split("\t")[0]
-        return most_played_title
+        try:
+            for line in games_file.readlines():
+                if copyes_sold < float(line.split("\t")[1]):
+                    copyes_sold = float(line.split("\t")[1])
+                    most_played_title = line.split("\t")[0]
+        except ValueError as error:
+            return "There was an error while reading the file: {0} {1}\n".format(error, type(error))
+        else:
+            return most_played_title
 
 
 def sum_sold(file_name):
     summa = 0
     with open(file_name) as games_file:
-        for line in games_file.readlines():
-            summa += float(line.split("\t")[1])
-        return summa
+        try:
+            for line in games_file.readlines():
+                summa += float(line.split("\t")[1])
+        except ValueError as error:
+            return "Error with the format of the file's content: {0} {1}\n".format(error, type(error))
+        else:
+            return summa
 
 
 def get_selling_avg(file_name):
@@ -31,8 +39,10 @@ def get_selling_avg(file_name):
         if games_num == 0:
             raise ValueError("There was an error reading the file or the file contains no lines to read")
         summa = sum_sold(file_name)
+        if type(summa) is not float:
+            raise ValueError("Wasn't able to calculate summa properly")
     except ValueError as error:
-        print(error)
+        return "{0} {1}\n".format(error, type(error))
     else:
         return (summa/games_num)
 
@@ -45,10 +55,9 @@ def count_longest_title(file_name):
                 if longest_title_length < len(line.split("\t")[0]):
                     longest_title_length = len(line.split("\t")[0])
             if longest_title_length == 0:
-                raise ValueError(
-                    "There was a problem reading the titles or the title you are looking for is not in the given file")
+                raise ValueError("There was a problem reading the titles")
         except ValueError as error:
-            print(error)
+            return "{0} {1}\n".format(error, type(error))
         else:
             return longest_title_length
 
@@ -69,7 +78,7 @@ def get_date_avg(file_name):
             raise ValueError("There was an error reading the file or the file contains no lines to read")
         sum_of_years = sum_year(file_name)
     except ValueError as error:
-        print(error)
+        return "Invalid result above. Error with a date: {0} {1}\n".format(error, type(error))
     else:
         return round(sum_of_years/games_num)
 
@@ -85,9 +94,9 @@ def get_game(file_name, title):
                     game_list[2] = int(game_list[2])
                     game_list[4] = game_list[4].rstrip()
             if len(game_list) == 0:
-                raise ValueError("The given file didn't contain the asked title")
+                raise ValueError("The given file doesn't contain the asked title: {}".format(title))
         except ValueError as error:
-            print(error)
+            return "{0} {1}\n".format(error, type(error))
         else:
             return game_list
 
@@ -104,9 +113,14 @@ def count_grouped_by_genre(file_name):
 
 
 def date_ordering(date, date_list):
-    if date not in date_list:
-        date_list.append(date)
-    date_list.sort(reverse=True)
+    try:
+        float(date)
+    except ValueError as error:
+        return "There is a title that has an inappropriate date: {0} {1}\n".format(error, type(error))
+    else:
+        if date not in date_list:
+            date_list.append(date)
+        date_list.sort(reverse=True)
 
 
 def title_listing(title, date, date_dict):

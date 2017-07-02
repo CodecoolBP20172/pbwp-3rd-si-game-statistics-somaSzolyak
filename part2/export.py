@@ -35,9 +35,15 @@ def get_date_ordered_export(file_name, export_file):
 
 
 def main():
-    path = "game_stat.txt"
-    title = "Half-Life"
-    with open("results.txt", "w") as export_file:
+    # use these pats to test my unctions on different inputs
+    # path = "game_stat.txt"
+    path = "game_stat_2.txt"
+    # path = "empty.txt"
+    # title = "Half-Life"
+    title = "Not_in_the_list"
+    export_path = "results.txt"
+    export_path_2 = "results_2.txt"
+    with open(export_path_2, "w") as export_file:
         get_most_played_export(path, export_file)
         sum_sold_export(path, export_file)
         get_selling_avg_export(path, export_file)

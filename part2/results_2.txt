@@ -1,0 +1,13 @@
+There was an error while reading the file: could not convert string to float: '@äđĐ[]ħłŁ' <class 'ValueError'>
+
+Error with the format of the file's content: could not convert string to float: '@äđĐ[]ħłŁ' <class 'ValueError'>
+
+Wasn't able to calculate summa properly <class 'ValueError'>
+
+52
+Invalid result above. Error with a date: could not convert string to float: '4asd' <class 'ValueError'>
+
+The given file doesn't contain the asked title: Not_in_the_list <class 'ValueError'>
+
+{'Sandbox': 1, 'Simulation': 3, '@@@@@': 1, 'First-person shooter': 6, 'Survival game': 1, '@äđĐ[]ħłŁ': 1, 'Real-time strategy': 7, 'Action-adventure': 1, 'RPG': 5}
+['12345', 'Diablo III', 'Terraria', 'StarCraft II: Wings of Liberty', 'Minecraft', 'The Sims 3', 'Crysis', "Garry's Mod", 'Guild Wars', 'Counter-Strike: Condition Zero', 'Doom 3', 'Half-Life 2', 'The Sims 2', 'Warhammer 40,000: Dawn of War (including expansions)', 'World of Warcraft', 'Warcraft III: Reign of Chaos', 'Diablo II', 'The Sims', 'Counter-Strike', 'EverQuest', 'Half-Life', 'StarCraft', 'Age of Empires', 'Command & Conquer', 'Populous']
