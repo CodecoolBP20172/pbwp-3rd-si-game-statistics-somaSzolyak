@@ -32,3 +32,13 @@ def get_date_avg_print(file_name):
 def get_game_print(file_name, title):
     pp.pprint(reports.get_game(file_name, title))
     return reports.get_game(file_name, title)
+
+
+def count_grouped_by_genre_print(file_name):
+    pp.pprint(reports.count_grouped_by_genre(file_name))
+    return reports.count_grouped_by_genre(file_name)
+
+
+def get_date_ordered_print(file_name):
+    pp.pprint(reports.get_date_ordered(file_name))
+    return reports.get_date_ordered(file_name)
